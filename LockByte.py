@@ -15,8 +15,8 @@ class SecureEncryptionApp:
         self.root.title("Secure File Vault")
         self.root.geometry("750x500")
         
-        # Security parameters
-        self.iterations = 600_000  # PBKDF2 iterations
+
+        self.iterations = 600_000 
         self.min_password_length = 12
         self.secure_delete_passes = 3
         
@@ -25,13 +25,13 @@ class SecureEncryptionApp:
         self.setup_security_checks()
 
     def create_widgets(self):
-        # File selection
+
         self.file_frame = ttk.LabelFrame(self.root, text="File Operations")
         self.file_path = tk.StringVar()
         self.file_label = ttk.Label(self.file_frame, text="No file selected")
         self.browse_btn = ttk.Button(self.file_frame, text="Browse", command=self.select_file)
         
-        # Password security
+
         self.pwd_frame = ttk.LabelFrame(self.root, text="Password Security")
         self.password = tk.StringVar()
         self.password.trace_add("write", self.update_password_strength)
@@ -43,7 +43,7 @@ class SecureEncryptionApp:
         self.strength_label = ttk.Label(self.pwd_frame, text="Password Strength: ")
         self.generate_btn = ttk.Button(self.pwd_frame, text="Generate", command=self.generate_password)
         
-        # Security options
+
         self.opt_frame = ttk.LabelFrame(self.root, text="Security Options")
         self.secure_delete = tk.BooleanVar(value=True)
         self.delete_cb = ttk.Checkbutton(self.opt_frame, text="Secure Delete Original", 
@@ -52,12 +52,12 @@ class SecureEncryptionApp:
         self.passes_spin = ttk.Spinbox(self.opt_frame, from_=1, to=7, 
                                      textvariable=self.passes_var, width=3)
         
-        # Actions
+
         self.btn_frame = ttk.Frame(self.root)
         self.encrypt_btn = ttk.Button(self.btn_frame, text="Encrypt", command=self.encrypt_file)
         self.decrypt_btn = ttk.Button(self.btn_frame, text="Decrypt", command=self.decrypt_file)
         
-        # Status/log
+
         self.status_area = scrolledtext.ScrolledText(self.root, state='disabled', height=10)
         self.security_warning = ttk.Label(self.root, 
                                         text="Warning: Always verify backups and store passwords securely!",
@@ -117,14 +117,14 @@ class SecureEncryptionApp:
         pwd = self.password.get()
         score = 0
         
-        # Length check
+
         length = len(pwd)
         if length >= self.min_password_length:
             score += 2
         elif length >= 8:
             score += 1
             
-        # Complexity checks
+
         has_upper = re.search(r'[A-Z]', pwd)
         has_lower = re.search(r'[a-z]', pwd)
         has_digit = re.search(r'\d', pwd)
@@ -132,7 +132,7 @@ class SecureEncryptionApp:
         
         score += sum([1 for req in [has_upper, has_lower, has_digit, has_special] if req])
         
-        # Update UI
+
         colors = {0: "red", 1: "orange", 2: "yellow", 3: "green"}
         strength = min(score // 2, 3)
         self.strength_label.config(
